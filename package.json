@@ -1,0 +1,29 @@
+{
+  "name": "breadtags",
+  "version": "1.0.0",
+  "description": "Tags builder for Apex-Bot",
+  "main": "src/index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/Soumil07/breadtags.git"
+  },
+  "keywords": [
+    "tags",
+    "custom",
+    "commands",
+    "apex"
+  ],
+  "author": "Soumil07 (Stitch)",
+  "license": "UNLICENSED",
+  "homepage": "https://bitbucket.org/Soumil07/breadtags#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "xregexp": "^4.2.0"
+  }
+}
