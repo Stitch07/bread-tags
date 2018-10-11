@@ -24,7 +24,7 @@ module.exports = class TagsParser {
 		for (const tag of tags) {
 			let [name, value] = tag.split(':'); // eslint-disable-line prefer-const
 			if (value) value = this.replaceArg(value, data.args);
-			const built = this.get(name);
+			const built = this.get(name.toLowerCase());
 			if (!built) continue;
 			if (!value && built.args > 0) throw `The tag ${built.type[0]} expects at least **${built.args}** value(s).`;
 			input = await built.onUse(input, {
