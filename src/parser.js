@@ -1,12 +1,18 @@
 const tagBuilders = require('./tags');
 const XRegExp = require('xregexp');
 
+// Regex for {name:param}
+const funcRegex = /{(.*?\S(:).*?\S)}/gi;
+// Splits the tag only at the first colon (URL colon foolproofing)
+const splitRegex = /:(.+)?/gi;
+
+const matchRecursive = str => XRegExp.matchRecursive(str, '{', '}', 'gi');
+
 module.exports = class TagsParser {
 
 	constructor(options = {}) {
+		this.errorLogging = options.errorLogging;
 		this.tags = tagBuilders;
-		this.argRegex = /arg\d/g;
-		this.tagArgRegex = /{arg\d}/g;
 		if (options.disabledTags) {
 			for (const tag of options.disabledTags) this.tags.delete(tag);
 		}
@@ -18,22 +24,47 @@ module.exports = class TagsParser {
 		return tg ? tg[1] : null;
 	}
 
-	async parse(input, data) {
-		const tags = XRegExp.matchRecursive(input, '{', '}', 'gi');
+	async parse(input, data = { args: [] }, cb) {
 		input = this.replaceArg(input, data.args);
+		let tags = matchRecursive(input);
+		if (!tags) return null;
+		tags = tags.map(tg => `{${tg}}`);
+		let parsedString = input;
 		for (const tag of tags) {
-			let [name, value] = tag.split(':'); // eslint-disable-line prefer-const
-			if (value) value = this.replaceArg(value, data.args);
-			const built = this.get(name.toLowerCase());
-			if (!built) continue;
-			if (!value && built.args > 0) throw `The tag ${built.type[0]} expects at least **${built.args}** value(s).`;
-			input = await built.onUse(input, {
-				tagString: `{${name}${value ? `:${value}` : ''}}`,
-				value,
-				...data
-			});
+			let stripped = tag.slice(1, -1);
+
+			if (matchRecursive(stripped)) {
+				await this.parse(stripped, data, newString => {
+					stripped = newString;
+				});
+			}
+
+			const tagDef = {
+				raw: stripped,
+				name: tag.match(funcRegex) !== null ? String(stripped.split(splitRegex).splice(0, 1)) : stripped,
+				func: tag.match(funcRegex) !== null ? stripped.split(splitRegex).splice(1, 1)[0].split('|') : []
+				// Arguments are separated by pipes which calls for an another split
+				// The arguments are in an array from which the name is extracted, hence using the 0th element
+			};
+
+			let result;
+			try {
+				const built = this.get(tagDef.name);
+				if (!built) {
+					result = tag;
+				} else {
+					if (built.args > tagDef.func.length) throw `At least **${built.args}** values are required to use this tag. Separate values by |.`;
+					result = await built.onUse(parsedString, { value: tagDef.func, ...data });
+				}
+			} catch (error) {
+				if (this.errorLogging) console.error(error);
+				result = tag;
+			}
+			// Replace tags in the parsed string
+			parsedString = parsedString.replace(tag, result);
 		}
-		return input;
+		if (cb) return cb(parsedString);
+		else return parsedString;
 	}
 
 	replaceArg(string, args) {
@@ -49,4 +80,8 @@ module.exports = class TagsParser {
 		tagBuilders.set(tags.type[0], tags);
 	}
 
+};
+
+String.prototype.replaceAll = function replaceAl(searchString, replaceString) {
+	return this.split(searchString).join(replaceString);
 };

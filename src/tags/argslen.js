@@ -1,7 +1,7 @@
 const TagBuilder = require('../Builder');
 
 module.exports = new TagBuilder()
-	.setType(['args', 'arguments'])
+	.setType(['argslen', 'args', 'arguments'])
 	.setDescription('Prints the number of arguments provided.')
 	.hasAction(false)
-	.setProcess(data => data.args ? data.args.length : 0);
+	.setProcess(data => data.args.length);

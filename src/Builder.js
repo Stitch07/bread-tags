@@ -39,13 +39,16 @@ module.exports = class TagBuilder {
 		if (this.action) {
 			try {
 				await this.process(data);
-				input = input.replace(data.tagString, '');
+				input = '';
 			} catch (error) {
 				throw `An error occured while executing this tag: \`${error.toString()}\`.`;
 			}
 		} else {
-			const out = await this.process(data);
-			input = input.replace(data.tagString, out);
+			try {
+				input = await this.process(data);
+			} catch (error) {
+				throw `An error occured while executing this tag: \`${error.toString()}\`.`;
+			}
 		}
 		return input;
 	}
