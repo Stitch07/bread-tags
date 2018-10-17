@@ -50,7 +50,7 @@ module.exports = class TagsParser {
 
 			let result;
 			try {
-				const built = this.get(tagDef.name);
+				const built = this.get(tagDef.name.toLowerCase());
 				if (!built) {
 					result = tag;
 				} else {
