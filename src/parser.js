@@ -83,7 +83,3 @@ module.exports = class TagsParser {
 	}
 
 };
-
-String.prototype.replaceAll = function replaceAl(searchString, replaceString) {
-	return this.split(searchString).join(replaceString);
-};
