@@ -7,13 +7,14 @@ module.exports = new TagBuilder()
 	.requiredArgs(1)
 	.hasAction()
 	.setProcess(data => {
-		if (!data.value) throw 'You need to provide a role ID to add separated by a colon. Example: {roleadd:1111111111}';
+		const [rolename] = data.value;
+		if (!rolename) throw 'You need to provide a role ID to add separated by a colon. Example: {roleadd:1111111111}';
 		let role;
-		if (regex.role.test(data.value)) {
-			role = data.guild.roles.get(data.value);
+		if (regex.role.test(rolename)) {
+			role = data.guild.roles.get(rolename);
 		} else {
-			role = data.guild.roles.find(rol => rol.name === data.value);
+			role = data.guild.roles.find(rol => rol.name === rolename);
 		}
 		if (!role) throw 'Invalid role. Please provide a valid role name or ID.';
-		return data.member.roles.add(data.value);
+		return data.member.roles.add(role);
 	});
