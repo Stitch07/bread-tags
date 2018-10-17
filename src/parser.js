@@ -12,6 +12,7 @@ module.exports = class TagsParser {
 
 	constructor(options = {}) {
 		this.errorLogging = options.errorLogging;
+		this.throwErrors = options.throwErrors;
 		this.tags = tagBuilders;
 		if (options.disabledTags) {
 			for (const tag of options.disabledTags) this.tags.delete(tag);
@@ -58,6 +59,7 @@ module.exports = class TagsParser {
 				}
 			} catch (error) {
 				if (this.errorLogging) console.error(error);
+				if (this.throwErrors) throw error;
 				result = tag;
 			}
 			// Replace tags in the parsed string

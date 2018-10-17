@@ -1,3 +1,5 @@
+let variables = null;
+
 module.exports = class TagBuilder {
 
 	constructor() {
@@ -6,6 +8,7 @@ module.exports = class TagBuilder {
 		this.action = null;
 		this.args = 0;
 		this.process = null;
+		this.variables = new Map();
 	}
 
 	setType(type) {
@@ -36,6 +39,9 @@ module.exports = class TagBuilder {
 	}
 
 	async onUse(input, data) {
+		// fuck JS for scoping
+		if (!variables) variables = new Map();
+		data = { addVar: (key, val) => variables.set(key, val), getVar: key => variables.get(key), ...data };
 		if (this.action) {
 			try {
 				await this.process(data);

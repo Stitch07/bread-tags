@@ -4,4 +4,6 @@ module.exports = new TagBuilder()
 	.setType(['allargs'])
 	.setDescription('Sends all surprised arguments, separated by spaces.')
 	.hasAction(false)
-	.setProcess(data => data.args.length ? data.args.join(' ') : 'No arguments supplied.');
+	.setProcess(data => {
+		return data.args.length ? data.args.join(' ') : 'No arguments supplied.';
+	});

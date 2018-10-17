@@ -2,13 +2,17 @@
 
 Bread tags is a WIP text parser for Discord Bots. It is designed to be a better and efficient successor to [stitchscript](https://github.com/Soumil07/stitchscript).
 
+Bread tags **supports recursive** matching and nested subtags. It is possible to have infinite nested tags looking like this: `{uppercase:{lowercase:{uppercase:stitch}}}`.
+
+**Now supports variables**
+
 # Usage
 
 ```js
 const { Parser } = require('breadtags')
 (async function() {
-    console.log(await new Parser().parse('The square of {arg1} is {sqr:arg1}'), {
-        args: ['10']
+    console.log(await new Parser().parse('The uppercase of {allargs} is {uppercase:{allargs}}'), {
+        args: ['stitch', 'is', 'cool']
     })
 })() // The square of 10 is 100
 ```
