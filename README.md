@@ -14,7 +14,7 @@ const { Parser } = require('breadtags')
     console.log(await new Parser().parse('The uppercase of {allargs} is {uppercase:{allargs}}'), {
         args: ['stitch', 'is', 'cool']
     })
-})() // The square of 10 is 100
+})() // The uppercase of stitch is cool is STITCH IS COOL
 ```
 
 # Data
