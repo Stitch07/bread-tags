@@ -1,6 +1,6 @@
 {
   "name": "breadtags",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Tags builder for Apex-Bot",
   "main": "src/index",
   "scripts": {

@@ -27,7 +27,13 @@ module.exports = class TagsParser {
 
 	async parse(input, data = { args: [] }, cb) {
 		input = this.replaceArg(input, data.args);
-		let tags = matchRecursive(input);
+		let tags;
+		try {
+			tags = matchRecursive(input);
+		} catch (error) {
+			if (this.errorLogging) throw error;
+			return input;
+		}
 		if (!tags) return null;
 		tags = tags.map(tg => `{${tg}}`);
 		let parsedString = input;
