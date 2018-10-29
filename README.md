@@ -23,6 +23,7 @@ For useful tags, the developer needs to pass certain data objects to the parse f
 * user: The user object of the user running this tag.
 * member: The member object of the guildmember running this tag.
 * channel: The channel object of the channel this tag is being used in.
+* guild: The guild object of the guild this tag is being used in.
 * args: An array of arguments passed into this tag. (default to [])
 
 # Creating your own tags
