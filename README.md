@@ -27,4 +27,4 @@ interface Tag {
 }
 ```
 Users can pass a tag implementing this interface into `Parser#load`.
-An asynchronous `Parser#loadAll` is also provided to load all tags from a directory.
+A synchronous `Parser#loadAll` is also provided to load all tags from a directory.

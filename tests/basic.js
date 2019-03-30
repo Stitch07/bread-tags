@@ -1,10 +1,6 @@
 const test = require('ava');
 const parser = new (require('../src'))();
 
-test.before(async () => {
-	await parser.init();
-});
-
 test('basic parsing', async t => {
 	const expected = 'this is a TEST';
 	t.is(await parser.parse('this is a {uppercase:{args}}', { args: ['test'] }), expected);
