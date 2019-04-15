@@ -41,6 +41,10 @@ module.exports = class Parser {
 		return output;
 	}
 
+	remove(...tags) {
+		for (const tag of tags) this.tags.delete(tag);
+	}
+
 	loadAll(dir) {
 		const files = fs.readdirSync(dir);
 		for (const file of files) this.load(require(`${dir}/${file}`));

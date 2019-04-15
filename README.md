@@ -28,3 +28,23 @@ interface Tag {
 ```
 Users can pass a tag implementing this interface into `Parser#load`.
 A synchronous `Parser#loadAll` is also provided to load all tags from a directory.
+
+## Disabling tags
+
+A variadic Parser#remove is provided to remove pre loaded tags.
+
+## Error handling
+
+When an error occurs while executing a tag, parsing stops immediately and the error string is returned from Parser#parse.
+This ensures the application will not crash, and the end user will be able to report the error.
+
+## Discord specific tags
+
+Discord specific tags are implemented assuming you are using discord.js master. For all tags to function, ensure your Context satisfies this interface:
+```typescript
+interface Context {
+    user: discordjs.User;
+    guild: discordjs.Guild;
+    channel: discordjs.GuildChannel;
+}
+```
