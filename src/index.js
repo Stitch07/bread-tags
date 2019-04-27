@@ -6,7 +6,7 @@ const { TYPES: { CHAR } } = require('./constants.js');
 module.exports = class Parser {
 	constructor() {
 		this.tags = new Map();
-		this.loadAll(`${process.cwd()}/src/tags`);
+		this.loadAll(`./tags`);
 	}
 
 	async parse(source, context) {
