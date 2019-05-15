@@ -42,7 +42,13 @@ module.exports = class Parser {
 	}
 
 	remove(...tags) {
-		for (const tag of tags) this.tags.delete(tag);
+		for (const name of tags) {
+			const tag = this.tags.get(name);
+			if (tag.aliases) {
+				for (const alias of tag.aliases) this.tags.delete(alias);
+			}
+			this.tags.delete(name);
+		}
 	}
 
 	loadAll(dir) {
