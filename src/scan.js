@@ -40,6 +40,6 @@ module.exports = str => {
 				current.text += char;
 		}
 	}
-
+	if (current.type === CHAR && current.text !== '') tokens.push(current);
 	return tokens;
 };

@@ -27,3 +27,8 @@ test('aliases', async t => {
 	const expected = 'Stitch';
 	t.is(await parser.parse('{titlecase:stitch}'), expected);
 });
+
+test('actual sentences', async t => {
+	const expected = 'this is a big sentence, Stitch, so big';
+	t.is(await parser.parse('this is a big sentence, {titlecase:Stitch}, so big'), expected);
+});

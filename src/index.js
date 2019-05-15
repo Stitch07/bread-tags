@@ -1,12 +1,12 @@
 const fs = require('fs');
-
+const path = require('path');
 const scan = require('./scan.js');
 const { TYPES: { CHAR } } = require('./constants.js');
 
 module.exports = class Parser {
 	constructor() {
 		this.tags = new Map();
-		this.loadAll(__dirname + '/tags');
+		this.loadAll(path.join(__dirname, 'tags'));
 	}
 
 	async parse(source, context) {
@@ -26,7 +26,7 @@ module.exports = class Parser {
 			value = value || '';
 			if (!tag) return `{${name}:${value}}`;
 			try {
-				return tag.run({ value, ...context });
+				return tag.run({ value, ...context }) || '';
 			} catch (error) {
 				return `An error occurred while executing the tag ${name}: \`${error}\``;
 			}

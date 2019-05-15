@@ -1,4 +1,4 @@
 module.exports = {
-	name: 'user',
+	name: 'usertag',
 	run: ctx => (ctx.user ? ctx.user.tag : 'No user passed to context.')
 };
