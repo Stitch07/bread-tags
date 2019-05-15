@@ -29,7 +29,7 @@ module.exports = str => {
 				if (current.type === TAG) {
 					if (current.parent === null) {
 						tokens.push(current);
-						current = token(null, char[i + 1] === '{' ? TAG : CHAR);
+						current = token(null, str[i + 1] === '{' ? TAG : CHAR);
 					} else {
 						current = current.parent;
 					}
@@ -37,7 +37,6 @@ module.exports = str => {
 				break;
 
 			default:
-				if (current.type === null) current.type = token(null, CHAR);
 				current.text += char;
 		}
 	}
